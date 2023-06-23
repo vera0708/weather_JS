@@ -43,21 +43,21 @@ export const getcurrentDataTime = () => {
     }
 };
 
-export const getWindDirection = (deg) => {
-    const directions = [
-        '&#8593;',
-        '&#8598;',
-        '&#8592;',
-        '&#8601;',
-        '&#8595;',
-        '&#8600;',
-        '&#8594;',
-        '&#8599;',
-    ];
-    // https://symbl.cc/ru/unicode/blocks/arrows/
-    const i = Math.round(deg / 45) % 8;
-    return directions[i];
-};
+// export const getWindDirection = (deg) => {
+//     const directions = [
+//         '&#8593;',
+//         '&#8598;',
+//         '&#8592;',
+//         '&#8601;',
+//         '&#8595;',
+//         '&#8600;',
+//         '&#8594;',
+//         '&#8599;',
+//     ];
+// https://symbl.cc/ru/unicode/blocks/arrows/
+//     const i = Math.round(deg / 45) % 8;
+//     return directions[i];
+// };
 
 export const getDewPoint = (temp, humidity) => {
     const a = 17.27;
@@ -76,7 +76,8 @@ export const getWeatherForecastData = (data) => {
     const forecast = data.list.filter(
         (item) => {
             return new Date(item.dt_txt).getHours() === 12 &&
-                new Date(item.dt_txt).getDate() > new Date().getDate();
+                new Date(item.dt_txt).getDate() > new Date().getDate() &&
+                new Date(item.dt_txt).getDate() < new Date().getDate() + 5
         });
 
     const forecastData = forecast.map((item) => {
@@ -103,7 +104,8 @@ export const getWeatherForecastData = (data) => {
             if (tempDate.getDate() === date.getDate()) {
                 if (temp < minTemp) {
                     minTemp = temp;
-                } else {
+                }
+                if (temp > maxTemp) {
                     maxTemp = temp;
                 }
             };
@@ -117,4 +119,6 @@ export const getWeatherForecastData = (data) => {
     });
     console.log(forecast);
     return forecastData;
-}
+};
+// Как ощущается температура :
+// const windChill = 13.12 + 0.6215 * temperature - 11.37 * Math.pow(windSpeed, 0.16) + 0.3965 * temperature * Math.pow(windSpeed, 0.16);
